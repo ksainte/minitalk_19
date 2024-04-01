@@ -15,55 +15,39 @@
 #include <stdio.h>
 #include <string.h>
 
-/**
- * @brief    
- * the LSB is the least weighted bit in the number
- * 
- * Sends 8 signals to the provided PID to transmit the
- * provided character bit by bit.
- * It starts from the MSB and progressively goes to the LSB.
- *
- * It sends SIGUSR1 if the bit is 1, SIGUSR2 if it is 0.
- *
- * @param    pid       server's PID
- * @param    character character to transmit
- */
-void	send_signal(int pid, unsigned char character)
+
+void	send_byte(int pid, unsigned char character)
 {
 	int				i;
-	unsigned char	temp_char;
+	unsigned char	temp_byte;
 
-	i = 8;
-	temp_char = character;//temp_char is character sent
-	printf("%d\n", temp_char);
-	for (int i = 7; i >= 0; i--) {
-        printf("%d", (temp_char >> i) & 1);
-    }
-
-	while (i > 0)
+	
+	// i = 7;
+	// character = 97;
+	temp_byte = character;
+	// printf("%d\n", temp_char);
+	// for (int i = 7; i >= 0; i--) {
+    //     printf("%d", (temp_char >> i) & 1);
+    // }
+	i = 7;
+	while (i >= 0)
 	{
-		i--;
-		temp_char = character >> i;//handles the shifting to the right, first 7, second 6, etc
-		// printf("each i is %0X \n", temp_char);
-		if (temp_char % 2 == 0)
-			kill(pid, SIGUSR2);//pair
+		temp_byte = character >> i;
+		if (temp_byte % 2 == 0)
+			kill(pid, SIGUSR2);
 		else
-			kill(pid, SIGUSR1);//impair
+			kill(pid, SIGUSR1);
 		usleep(42);
+		i--;
 	}
 }
 
-/**
- * @brief    Sends a message to the server character by character.
- *
- * @param    argc
- * @param    argv
- */
+
 // int	main(int argc, char *argv[])
 int	main()
 {
-	pid_t		server_pid;
-	const char	*message;
+	pid_t		pid;
+	const char	*string;
 	int			i;
 
 	// if (argc != 3)
@@ -71,14 +55,15 @@ int	main()
 	// 	ft_printf("Usage: %s <pid> <message>\n", argv[0]);
 	// 	exit(0);
 	// }
-	// server_pid = ft_atoi(argv[1]);
-	// message = argv[2];
-	server_pid = 37291;
-	message = "H";
+	// pid = ft_atoi(argv[1]);
+	// string = argv[2];
+	pid = 43581;
+	string = "alklsdjlkjfsdkljfkjksdjkjlkjslkdjkfjkdjlskjdlkjlskj";
 	i = 0;
-	//sends character by character, each character is 8 bytes
-	while (message[i])
-		send_signal(server_pid, message[i++]);
-	// send_signal(server_pid, '\0');
+	while (string[i]){
+		send_byte(pid, string[i]);
+		i++;
+	}
+	send_byte(pid, '\0');
 	return (0);
 }

@@ -16,60 +16,53 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define END_TRANSMISSION '\0'
 
-/**
- * @brief    
- * Checks if the signal is SIGUSR1. 
- * If it is, it will assign 1 to the LSB. 
- * Else, it will assign 0 (actually it simply won't modify it).
- *
- * Example:
- * 00101100   current_char
- * 00000001   result of (sigsent == SIGUSR1)
- * --------
- * 00101101   result stored in message after the bitwise OR operation
- *
- * It will then increment the bit index.
- * If it is 8, it means that
- * the char has been fully transmitted. It will then print it and
- * reset the bit index and the current char.
- * Else, it will shift the current char to the left by 1.
- *
- * @param    signal    SIGUSR1 or SIGUSR2
- */
+#define TERMINATE_COMMUNICATION '\0'
 
-//A signal handler function can have any name, but must have return type void and have one int parameter.
-void	handle_signal(int signal)
-{
-	static unsigned char	current_char;
-	static int				bit_index;
 
-	current_char |= (signal == SIGUSR1);
-	bit_index++;
-	if (bit_index == 8)
-	{
-		if (current_char == END_TRANSMISSION)
-			ft_printf("\n");
-		else
-			ft_printf("%c", current_char);
-		bit_index = 0;
-		current_char = 0;
-	}
+
+int define_bit(int signal){
+
+	if (signal == SIGUSR1)
+		return (1);
 	else
-		current_char <<= 1;
+		return(0);
 }
 
-/**
- * @brief    Prints its program's PID and calls the signal handlers.
- */
+
+void	signal_handler(int signal)
+{
+	static unsigned char	current_byte;
+	unsigned char			c;
+	static int				bit;//default value is 0
+
+	c = define_bit(signal);
+	//bitwise OR operation:
+	current_byte |= c;
+	bit++;
+	if (bit == 8)
+	{
+		if (current_byte == TERMINATE_COMMUNICATION)
+			ft_printf("\n");
+		else
+			ft_printf("%c", current_byte);
+		bit = 0;
+		current_byte = 0;
+	}
+	else
+		current_byte = current_byte << 1;
+}
+
+//Compile and run the program in one of the terminals. The program should block waiting for any signal. 
 int	main(void)
 {
-	//A signal is a software generated interrupt that is sent to a process by the OS 
+	//Signal = un mécanisme de communication inter-processus
 	printf("%d\n", getpid());
-	signal(SIGUSR1, handle_signal);
-	signal(SIGUSR2, handle_signal);
-	while (1)
+	//When a signal is received, the signal_handler function is called with the corresponding signal as an argument.
+	signal(SIGUSR1, signal_handler);
+	signal(SIGUSR2, signal_handler);
+	while (1){
 		pause();
+	}
 	return (0);
 }

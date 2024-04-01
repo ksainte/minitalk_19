@@ -58,12 +58,7 @@ void	handle_read_receipt(int signal)
 		ft_printf("Received bit 0\n");
 }
 
-/**
- * @brief    Sends a message to the server character by character.
- *
- * @param    argc
- * @param    argv
- */
+
 int	main(int argc, char *argv[])
 {
 	pid_t		server_pid;
