@@ -6,7 +6,7 @@
 /*   By: ksainte <ksainte19@student.s19>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 21:51:06 by ksainte           #+#    #+#             */
-/*   Updated: 2024/04/03 23:02:47 by ksainte          ###   ########.fr       */
+/*   Updated: 2024/04/03 23:48:37 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	signal_handler(int signal)
 
 int	main(void)
 {
-	printf("%d\n", getpid());
+	ft_printf("%d\n", getpid());
 	signal(SIGUSR1, signal_handler);
 	signal(SIGUSR2, signal_handler);
 	while (1)

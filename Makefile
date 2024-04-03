@@ -6,7 +6,7 @@
 #    By: ksainte <ksainte19@student.s19>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/03 22:55:58 by ksainte           #+#    #+#              #
-#    Updated: 2024/04/03 22:56:06 by ksainte          ###   ########.fr        #
+#    Updated: 2024/04/03 23:48:20 by ksainte          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SERVER_NAME = server
 CLIENT_BONUS_NAME = client_bonus
 SERVER_BONUS_NAME = server_bonus
 
-all: $(CLIENT_BONUS_NAME) $(SERVER_BONUS_NAME)
+all: $(CLIENT_NAME) $(SERVER_NAME)
 
 $(CLIENT_NAME): $(CLIENT_SRCS) $(LIBFT_ARCHIVE)
 	$(CC) $(CFLAGS) -o $@ $(CLIENT_SRCS) -L$(LIBFT_PATH) -lft

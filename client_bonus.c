@@ -6,7 +6,7 @@
 /*   By: ksainte <ksainte19@student.s19>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 21:50:53 by ksainte           #+#    #+#             */
-/*   Updated: 2024/04/03 23:05:18 by ksainte          ###   ########.fr       */
+/*   Updated: 2024/04/03 23:46:32 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void	send_byte(int pid, unsigned char character)
 	unsigned char	temp_byte;
 
 	temp_byte = character;
-	i = 7;
-	while (i >= 0)
+	i = 8;
+	while (i > 0)
 	{
+		i--;
 		temp_byte = character >> i;
 		if (temp_byte % 2 == 0)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
 		usleep(42);
-		i--;
 	}
 }
 
