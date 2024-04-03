@@ -3,40 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <ksainte19@student.s19>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/06 12:16:32 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/14 15:32:40 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/06 11:30:49 by ksainte           #+#    #+#             */
+/*   Updated: 2024/04/03 23:20:18 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 
-size_t	ft_strlcat(char *dest, char *src, size_t size)
+size_t	ft_strlcat(char *restrict dst, const char *restrict src, size_t dstsize)
 {
 	size_t	i;
-	size_t	dest_size;
-	size_t	src_size;
-	size_t	total_size;
+	size_t	dest_len;
+	size_t	src_len;
 
-	dest_size = 0;
-	src_size = 0;
-	while (dest[dest_size])
-		dest_size++;
-	while (src[src_size])
-		src_size++;
-	if (size == 0)
-		return (src_size);
-	if (size <= dest_size)
-		return (src_size + size);
-	total_size = src_size + dest_size;
+	dest_len = ft_strlen(dst);
+	src_len = ft_strlen(src);
+	if (dstsize <= dest_len)
+		return (dstsize + src_len);
 	i = 0;
-	while (src[i] && dest_size < size - 1)
+	while (src[i] && i < dstsize - dest_len - 1)
 	{
-		dest[dest_size] = src[i];
-		dest_size++;
+		dst[dest_len + i] = src[i];
 		i++;
 	}
-	dest[dest_size] = '\0';
-	return (total_size);
+	dst[dest_len + i] = '\0';
+	return (dest_len + src_len);
 }
+/*#include<string.h>
+int	main(void)
+{
+	char dest[] = "ok";
+	char src[] = "toi";
+	//printf("%lu",ft_strlcat(dest,src,5));
+	printf("%lu",strlcat(NULL,src,1));
+	return (0);
+	//where dstsize is the length of newly created dest
+	//max 5,hence if <5 will overflow when appeding
+}*/

@@ -3,36 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <ksainte19@student.s19>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/09 15:02:14 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/06/10 14:29:08 by lgaudin          ###   ########.fr       */
+/*   Created: 2024/04/03 21:48:57 by ksainte           #+#    #+#             */
+/*   Updated: 2024/04/03 23:38:17 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
+#include "Libft/libft.h"
 #include <signal.h>
-#include <stdio.h>
-#include <string.h>
 
-
-void	send_byte(int pid, unsigned char character)
+void	send_byte(int pid, unsigned char byte)
 {
 	int				i;
 	unsigned char	temp_byte;
 
-	
-	// i = 7;
-	// character = 97;
-	temp_byte = character;
-	// printf("%d\n", temp_char);
-	// for (int i = 7; i >= 0; i--) {
-    //     printf("%d", (temp_char >> i) & 1);
-    // }
+	temp_byte = byte;
 	i = 7;
 	while (i >= 0)
 	{
-		temp_byte = character >> i;
+		temp_byte = byte >> i;
 		if (temp_byte % 2 == 0)
 			kill(pid, SIGUSR2);
 		else
@@ -42,25 +32,22 @@ void	send_byte(int pid, unsigned char character)
 	}
 }
 
-
-// int	main(int argc, char *argv[])
-int	main()
+int	main(int argc, char *argv[])
 {
 	pid_t		pid;
 	const char	*string;
 	int			i;
 
-	// if (argc != 3)
-	// {
-	// 	ft_printf("Usage: %s <pid> <message>\n", argv[0]);
-	// 	exit(0);
-	// }
-	// pid = ft_atoi(argv[1]);
-	// string = argv[2];
-	pid = 43581;
-	string = "alklsdjlkjfsdkljfkjksdjkjlkjslkdjkfjkdjlskjdlkjlskj";
+	if (argc != 3)
+	{
+		ft_printf("Wrong number of arguments\n");
+		exit(0);
+	}
+	pid = ft_atoi(argv[1]);
+	string = argv[2];
 	i = 0;
-	while (string[i]){
+	while (string[i])
+	{
 		send_byte(pid, string[i]);
 		i++;
 	}

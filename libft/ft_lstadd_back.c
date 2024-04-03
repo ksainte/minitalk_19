@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/13 10:15:49 by ksainte           #+#    #+#             */
-/*   Updated: 2023/04/13 10:15:50 by ksainte          ###   ########.fr       */
+/*   Created: 2023/04/26 16:59:26 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/26 17:00:01 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+/*Parameters lst: The address of a pointer to the first link of
+a list.
+new: The address of a pointer to the node to be
+added to the list.
+
+Description : Adds the node ’new’ at the end of the list.*/
 #include "libft.h"
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char *))
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	int	i;
+	t_list	*head;
 
-	if (s == NULL)
-		return ((void) NULL);
-	i = 0;
-	while (s[i])
+	head = *lst;
+	while (head != NULL && head->next != NULL)
 	{
-		f(i, &s[i]);
-		i++;
+		head = head->next;
 	}
+	if (head != NULL)
+		head->next = new;
+	else
+		*lst = new;
 }
-
-// void	f(unsigned int i, char *c)
-// {
-// 	(void)i;
-// 	*c = *c + 1;
-// }
-/*int main()
-{
-    //char str[] = "abc";
-	char *str = NULL;
-    ft_striteri(str, *f);
-    printf("After: %s\n", str);
-    return (0);
-}*/

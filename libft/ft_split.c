@@ -3,80 +3,116 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/16 13:30:01 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/19 16:02:03 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/13 10:14:43 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/13 10:14:45 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "libft.h"
 
-static int	strings_count(char const *str, char c)
+static int	separator(const char str, char c)
 {
-	int	strings_count;
+	if (c == str)
+		return (1);
+	return (0);
+}
 
-	strings_count = 0;
+static int	count_words(const char *str, char c)
+{
+	int	count;
+
+	if (!str)
+		return (-1);
+	count = 0;
 	while (*str)
 	{
-		if (*str != c)
-		{
-			strings_count++;
-			while (*str && *str != c)
-				str++;
-		}
-		else
+		while (*str && separator(*str, c))
+			str++;
+		if (*str && !separator(*str, c))
+			count++;
+		while (*str && !separator(*str, c))
 			str++;
 	}
-	return (strings_count);
+	return (count);
 }
 
-static int	string_length(char const *s, char c, int i)
+static char	**ft_free_arr(char **split)
 {
-	int	length;
+	int	i;
 
-	length = 0;
-	while (s[i] != c && s[i])
+	i = 0;
+	while (split[i])
 	{
-		length++;
+		free(split[i]);
 		i++;
 	}
-	return (length);
+	free(split);
+	return (NULL);
 }
 
-static void	free_all(char **result, int index)
+static char	*ft_copy(const char *src, int n)
 {
-	while (index-- > 0)
-		free(result[index]);
-	free(result);
+	char	*dest;
+	int		i;
+
+	dest = (char *)malloc(sizeof(char) * (n + 1));
+	if (dest == NULL)
+		return (NULL);
+	i = 0;
+	while (i < n)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	int		index;
-	char	**result;
-	int		result_index;
+	char	**split;
+	int		count;
+	int		i;
+	int		j;
 
-	index = 0;
-	result_index = -1;
-	result = malloc((strings_count(s, c) + 1) * sizeof(char *));
-	if (!result)
-		return (0);
-	while (++result_index < strings_count(s, c))
+	count = count_words(s, c);
+	split = (char **)malloc(sizeof(char *) * (count + 1));
+	if (split == NULL)
+		return (NULL);
+	i = -1;
+	while (++i < count)
 	{
-		while (s[index] == c)
-			index++;
-		result[result_index] = ft_substr(s, index, string_length(s, c, index));
-		if (!(result[result_index]))
-		{
-			free_all(result, result_index);
-			return (0);
-		}
-		index += string_length(s, c, index);
+		while (*s && separator(*s, c))
+			s++;
+		j = 0;
+		while (s[j] && !separator(s[j], c))
+			j++;
+		split[i] = ft_copy(s, j);
+		if (split[i] == NULL)
+			return (ft_free_arr(split));
+		s += j;
 	}
-	result[result_index] = 0;
-	return (result);
+	split[i] = 0;
+	return (split);
 }
+/*int main(int argc,char *argv[])
+{
+	char **split;
+	char c = 'l';
+	int i;
+	//char *str = NULL;
+
+	str = argv[1];
+	//c = argv[2];
+
+	split = ft_split(str,c);
+	i = 0;
+	while (split[i])
+	{
+		printf("%s\n",split[i]);
+		i++;
+	}
+	return (0);
+}*/

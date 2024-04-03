@@ -3,47 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/10 19:08:04 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/12 21:15:21 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/10 16:48:00 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/11 09:22:40 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-void	*ft_memmove(void *dest, const void *src, size_t n)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	size_t			i;
-	unsigned char	*src_pointer;
-	unsigned char	*dest_pointer;
+	char	*src2;
+	char	*dst2;
 
-	if (src == NULL && dest == NULL)
-		return (0);
-	i = 0;
-	src_pointer = (unsigned char *)src;
-	dest_pointer = (unsigned char *)dest;
-	if (dest_pointer > src_pointer)
-		while (n-- != 0)
-			dest_pointer[n] = src_pointer[n];
-	else
+	if (!dst && !src)
+		return (dst);
+	if (dst < src)
+		return (ft_memcpy(dst, src, len));
+	src2 = (char *)src;
+	dst2 = (char *)dst;
+	while (len--)
 	{
-		while (i < n)
-		{
-			dest_pointer[i] = src_pointer[i];
-			i++;
-		}
+		dst2[len] = src2[len];
 	}
-	return (dest);
+	return (dst2);
 }
 
-// int	main(void)
-// {
-// 	char	str[] = "Start stop";
+/*int	main(void)
+{
+	#include <string.h>
+	char	*dst;
+	char	*src;
 
-// 	printf("The string: %s\n", str);
-// 	ft_memmove(str, str + 2, 3 * sizeof(char));
-// 	printf("New string: %s\n", str);
-
-// 	return (0);
-// }
+	//char dst[5];
+	src = "Learningisfun";
+	dst = src;
+	//printf("Original string :%s\n ", src);
+	//memmove(dst, src, 3);
+	//ft_memmove(NULL, NULL, 3);
+	memmove(NULL, NULL, 3);
+	printf("memmove overlap : %s\n ", dst);
+	return (0);
+}*/

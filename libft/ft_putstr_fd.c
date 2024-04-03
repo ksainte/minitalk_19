@@ -3,34 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 15:03:13 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/13 14:29:19 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/13 10:16:36 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/13 10:16:37 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <unistd.h>
-
-static int	ft_strlen(char *str)
-{
-	int	count;
-
-	count = 0;
-	while (str[count])
-		count++;
-	return (count);
-}
+#include "libft.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	if (!s || !fd)
-		return ;
-	write(fd, s, ft_strlen(s));
-}
+	size_t	i;
 
-// int	main(void)
-// {
-// 	ft_putstr_fd("Salut bg", 1);
-// 	return (0);
-// }
+	if (s == NULL)
+		return ((void) NULL);
+	i = 0;
+	while (s[i])
+	{
+		ft_putchar_fd(s[i], fd);
+		i++;
+	}
+}

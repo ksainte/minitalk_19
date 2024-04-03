@@ -3,47 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 14:48:25 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/13 14:31:09 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/13 10:15:22 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/13 10:15:23 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-// char	f(unsigned int i, char c)
-// {
-// 	return (i + '0');
-// }
+#include "libft.h"
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	int		i;
-	char	*result;
+	size_t	len;
+	size_t	i;
+	char	*str;
 
+	i = 0;
 	if (!s || !f)
-		return (0);
-	i = 0;
-	while (s[i])
-		i++;
-	result = malloc((i + 1) * sizeof(char));
-	if (!result)
-		return (0);
-	i = 0;
-	while (s[i])
+		return (NULL);
+	len = ft_strlen(s);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	while (i < len)
 	{
-		result[i] = f(i, s[i]);
+		str[i] = f(i, s[i]);
 		i++;
 	}
-	result[i] = 0;
-	return (result);
+	str[i] = '\0';
+	return (str);
 }
 
-// int	main(void)
+// char	f(unsigned int i, char c)
 // {
-// 	char string[] = "bonjour";
-// 	printf("%s got turned into %s\n", string, ft_strmapi(string, f));
-// 	return (0);
+// 	char	str;
+
+// 	(void)i;
+// 	str = c + 1;
+// 	return (str);
 // }
+
+/*int main()
+{
+	char str1[] = "abc";
+	char *str2;
+	str2 = ft_strmapi(str1, *f);
+	printf("%s\n", str2);
+}*/

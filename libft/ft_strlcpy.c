@@ -3,32 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/05 14:52:31 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/12 20:38:02 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/06 11:29:40 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/06 11:30:14 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 
-size_t	ft_strlcpy(char *dest, char *src, size_t size)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
-	size_t	res;
+	size_t	src_len;
 
+	src_len = ft_strlen(src);
+	if (dstsize == 0)
+		return (src_len);
 	i = 0;
-	res = 0;
-	while (src[res])
-		res++;
-	if (size > 0)
+	while (src[i] && i < dstsize - 1)
 	{
-		while (src[i] && i < (size - 1))
-		{
-			dest[i] = src[i];
-			i++;
-		}
-		dest[i] = '\0';
+		dst[i] = src[i];
+		i++;
 	}
-	return (res);
+	dst[i] = '\0';
+	return (src_len);
 }
+/*#include<string.h>
+int	main(void)
+{
+	char dest[] = "ok";
+	char src[] = "lorem ipsum dolor sit amet";
+	printf("%lu",ft_strlcpy(dest,src,0));
+    //printf("%lu",strlcpy(dest,src,0));
+    //printf("%s",strncpy(dest,src,2));
+	return (0);
+}*/

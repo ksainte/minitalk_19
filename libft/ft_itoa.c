@@ -3,82 +3,83 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 11:30:31 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/13 11:40:56 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/13 10:14:58 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/13 10:14:59 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "libft.h"
 
-static int	get_digits(long int n)
+static int	ft_len_int(int num)
 {
-	int	count;
+	int	i;
 
-	count = 1;
-	while (n >= 10)
+	i = 0;
+	if (num < 0)
 	{
-		n /= 10;
-		count++;
+		i++;
+		num = -num;
 	}
-	return (count);
+	if (num < 10)
+		i++;
+	while (num >= 10)
+	{
+		num = num / 10;
+		i++;
+		if (num < 10)
+			i++;
+	}
+	return (i);
 }
 
-// static void	ft_rev_tab(char *tab, int size)
-// {
-// 	int		i;
-// 	char	*array;
-
-// 	i = 0;
-// 	array = malloc((size + 1) * sizeof(char));
-// 	if (!array)
-// 		return ;
-// 	while (i < size)
-// 	{
-// 		array[i] = *tab;
-// 		if (i != size - 1)
-// 			tab++;
-// 		i++;
-// 	}
-// 	i--;
-// 	tab -= (size - 1);
-// 	while (i >= 0)
-// 	{
-// 		*tab++ = array[i];
-// 		i--;
-// 	}
-// }
-
-char	*ft_itoa(int n)
+static char	*res(void)
 {
-	int			digit_count;
-	char		*result;
-	long int	n_copy;
+	char	*result;
 
-	n_copy = n;
-	if (n_copy < 0)
-		n_copy *= -1;
-	digit_count = get_digits(n_copy);
-	if (n < 0)
-		digit_count++;
-	result = malloc((digit_count + 1) * sizeof(char));
+	result = (char *)malloc(12 * sizeof(char));
 	if (!result)
-		return (0);
-	result[digit_count--] = '\0';
-	while (digit_count >= 0)
-	{
-		result[digit_count--] = (n_copy % 10) + '0';
-		n_copy /= 10;
-	}
-	if (n < 0)
-		result[0] = '-';
+		return (NULL);
+	result[11] = '\0';
+	ft_memcpy(result, "-2147483648", 11);
 	return (result);
 }
 
-// int	main(void)
-// {
-// 	printf("%s\n", ft_itoa(-2147483648));
-// 	return (0);
-// }
+char	*ft_itoa(int n)
+{
+	int		nb;
+	int		len;
+	char	*result;
+
+	if (n == -2147483648)
+		return (res());
+	len = ft_len_int(n);
+	result = malloc(sizeof(char) * (len + 1));
+	if (!result)
+		return (NULL);
+	nb = n;
+	result[len] = '\0';
+	if (nb < 0)
+		nb = -nb;
+	while (len > 0)
+	{
+		result[len - 1] = (nb % 10) + 48;
+		nb = nb / 10;
+		if (n < 0)
+			result[0] = '-';
+		len--;
+	}
+	return (result);
+}
+/*int main(int argc,char *argv[])
+{
+    int n;
+    char *str;
+
+    n = atoi(argv[1]);
+    //n = -1056599095;
+    str =  ft_itoa(n);
+    printf("%s",str);
+    return (0);
+}*/

@@ -3,32 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/12 16:12:22 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/12 20:47:25 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/12 11:16:23 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/12 15:55:58 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-char	*ft_strdup(char *src)
+char	*ft_strdup(const char *s1)
 {
-	int		length;
-	char	*copy;
+	int		i;
+	int		len;
+	char	*dst;
 
-	length = 0;
-	while (src[length])
-		length++;
-	copy = malloc(sizeof(char) * length + 1);
-	if (!copy)
-		return (0);
-	length = 0;
-	while (src[length])
+	i = 0;
+	while (s1[i])
+		i++;
+	len = i;
+	dst = (char *)malloc(sizeof(char) * (len + 1));
+	if (dst == NULL)
+		return (NULL);
+	i = 0;
+	while (s1[i])
 	{
-		copy[length] = src[length];
-		length++;
+		dst[i] = s1[i];
+		i++;
 	}
-	copy[length] = '\0';
-	return (copy);
+	dst[i] = '\0';
+	return (dst);
 }
+/*int main()
+{
+    //char s1[] = "ok";
+	char *s1 = NULL;
+
+	printf("%s",ft_strdup(s1));
+	return (0);
+//int *ptr = (int*) malloc(100 * sizeof(int));
+//Since the size of int is 4 bytes, this statement 
+//will allocate 400 bytes of memory. 
+}*/

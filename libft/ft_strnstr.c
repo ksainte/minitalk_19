@@ -3,51 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/06 11:12:48 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/12 21:17:49 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/12 11:15:38 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/12 11:15:40 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
+#include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	int	i;
-	int	j;
+	char	*str;
+	char	*to_find;
+	size_t	i;
+	size_t	j;
 
-	if (little[0] == '\0' || (len == 0 && !big))
-		return ((char *)big);
+	str = (char *)haystack;
+	to_find = (char *)needle;
+	if (!haystack && len == 0)
+		return (NULL);
+	if (*to_find == '\0')
+		return (str);
 	i = 0;
-	while (big[i] != '\0' && (size_t)i < len)
+	while (str[i])
 	{
 		j = 0;
-		while (little[j] != '\0' && (size_t)i + j < len)
+		while (str[i + j] == needle[j] && str[i + j] && i + j < len)
 		{
-			if (big[i + j] == little[j])
-			{
-				j++;
-			}
-			else
-				break ;
-		}
-		if (little[j] == '\0')
-		{
-			return ((char *)big + i);
+			j++;
+			if (needle[j] == '\0')
+				return (str + i);
 		}
 		i++;
 	}
-	return (0);
+	return (NULL);
 }
+/*#include<string.h>
+int	main(void)
+{
+    char haystack[] = "lorem ipsum dolor sit amet";
+    char needle[] = "dolor";
+    char *str;
 
-// int	main(void)
-// {
-// 	char	first[] = "Bonjour";
-// 	char	second[] = "jour";
-// 	int		limit = 10;
-// 	printf("strstr returned %s\n", strnstr(first, second, limit));
-// 	printf("ft_strstr returned %s\n", ft_strnstr(first, second, limit));
-// 	return (0);
-// }
+    str = ft_strnstr(haystack,needle,15);
+    //str = strnstr(haystack,needle,15);
+
+    printf("%s",str);
+    return (0);
+}*/

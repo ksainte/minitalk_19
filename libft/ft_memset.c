@@ -3,25 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/10 18:36:06 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/12 17:00:10 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/10 12:47:05 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/10 16:52:34 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	size_t			count;
-	unsigned char	*pointer_copy;
+	unsigned char	*str;
+	size_t			i;
 
-	count = 0;
-	pointer_copy = (unsigned char *)s;
-	while (count < n)
+	i = 0;
+	str = (unsigned char *)b;
+	while (i < len)
 	{
-		pointer_copy[count++] = (unsigned char)c;
+		str[i] = c;
+		i++;
 	}
-	return (pointer_copy);
+	return (str);
 }
+/*#include<string.h>
+int	main(void)
+{
+	char str[50] = "GeeksForGeeks is for programming geeks.";
+	printf("\nBefore memset(): %s\n", str);
+	//memset(str + 13, '.', 8);
+	//memset(NULL, '.', 8);
+	ft_memset(NULL, '.', 8);
+	printf("After memset(): %s", str);
+	return (0);
+}*/

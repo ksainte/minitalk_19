@@ -3,43 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 15:11:51 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/12 16:28:55 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/13 10:17:24 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/13 10:17:25 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <unistd.h>
-
-static void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
+#include "libft.h"
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	if (n == -2147483648)
-	{
-		write(fd, "-2147483648", 11);
-		return ;
-	}
-	if (n < 0)
+	long	ln;
+
+	ln = n;
+	if (ln < 0)
 	{
 		ft_putchar_fd('-', fd);
-		n = -n;
+		ln *= -1;
 	}
-	if (n > 9)
-	{
-		ft_putnbr_fd(n / 10, fd);
-		ft_putnbr_fd(n % 10, fd);
-	}
+	if (ln <= 9)
+		ft_putchar_fd(ln + '0', fd);
 	else
-		ft_putchar_fd(n + 48, fd);
+	{
+		ft_putnbr_fd(ln / 10, fd);
+		ft_putnbr_fd(ln % 10, fd);
+	}
 }
+/*int main()
+{
+    #include <fcntl.h> // added for O_WRONLY, O_CREAT, O_TRUNC
+    int fd = open("output.txt",O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
-// int	main(void)
-// {
-// 	ft_putnbr_fd(12828363, 1);
-// 	return (0);
-// }
+    ft_putnbr_fd(-0, fd);
+    //-2147483648
+
+    close(fd);
+
+    return (0);
+}*/

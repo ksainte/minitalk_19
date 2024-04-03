@@ -3,41 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <ksainte19@student.s19>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/09 15:02:13 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/06/10 14:29:40 by lgaudin          ###   ########.fr       */
+/*   Created: 2024/04/03 21:51:06 by ksainte           #+#    #+#             */
+/*   Updated: 2024/04/03 23:02:47 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
+#include "Libft/libft.h"
 #include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 
 #define TERMINATE_COMMUNICATION '\0'
 
-
-
-int define_bit(int signal){
-
+int	define_bit(int signal)
+{
 	if (signal == SIGUSR1)
 		return (1);
 	else
-		return(0);
+		return (0);
 }
-
 
 void	signal_handler(int signal)
 {
 	static unsigned char	current_byte;
 	unsigned char			c;
-	static int				bit;//default value is 0
+	static int				bit;
 
 	c = define_bit(signal);
-	//bitwise OR operation:
 	current_byte |= c;
 	bit++;
 	if (bit == 8)
@@ -53,16 +45,12 @@ void	signal_handler(int signal)
 		current_byte = current_byte << 1;
 }
 
-//Compile and run the program in one of the terminals. The program should block waiting for any signal. 
 int	main(void)
 {
-	//Signal = un mécanisme de communication inter-processus
 	printf("%d\n", getpid());
-	//When a signal is received, the signal_handler function is called with the corresponding signal as an argument.
 	signal(SIGUSR1, signal_handler);
 	signal(SIGUSR2, signal_handler);
-	while (1){
+	while (1)
 		pause();
-	}
 	return (0);
 }

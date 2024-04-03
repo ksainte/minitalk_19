@@ -3,60 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/14 17:10:28 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/13 12:25:49 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/13 10:14:03 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/13 10:14:05 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "libft.h"
 
-static int	ft_strlen(char const *str)
+static char	*ft_append(char *dest, char const *src)
 {
-	int	count;
+	size_t	i;
+	size_t	len;
 
-	count = 0;
-	while (str[count])
-		count++;
-	return (count);
+	i = 0;
+	while (dest[i])
+		i++;
+	len = i;
+	i = 0;
+	while (src[i])
+	{
+		dest[len + i] = src[i];
+		i++;
+	}
+	dest[len + i] = '\0';
+	return (dest);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*join;
-	int		i;
-	int		j;
+	size_t	len_s2;
+	size_t	len_s1;
+	char	*ms;
 
 	if (!s1 || !s2)
-		return (0);
-	join = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (!join)
-		return (0);
-	i = 0;
-	j = 0;
-	while (s1[i])
+		return (NULL);
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
+	ms = (char *)malloc(sizeof(*ms) * (len_s1 + len_s2 + 1));
+	if (ms == NULL)
 	{
-		join[i] = s1[i];
-		i++;
+		return (NULL);
 	}
-	while (s2[j])
-	{
-		join[i] = s2[j];
-		i++;
-		j++;
-	}
-	join[i] = '\0';
-	return (join);
+	*ms = 0;
+	ms = ft_append(ms, s1);
+	ms = ft_append(ms, s2);
+	return (ms);
 }
+/*int main()
+{
+        char *s1;
+        char *s2;
+        char *tot;
+        
+        s1 = NULL;
+        s2 = "toi";
 
-// int	main(void)
-// {
-// 	char *s1 = "where is my ";
-// 	char *s2 = "malloc ???";
+        tot = ft_strjoin(s1,s2);
+        printf("%s",tot);
+        return (0); 
+}*/
+/*int main(int argc, char *argv[])
+{
+        char *s1;
+        char *s2;
+        char *tot;
+        
+        s1 = argv[1];
+        s2 = argv[2];
 
-// 	char *res = ft_strjoin(s2, s1);
-// 	printf("Output is %s\n", res);
-// 	return (0);
-// }
+        tot = ft_strjoin(s1,s2);
+        printf("%s",tot);
+        return (0);
+}*/

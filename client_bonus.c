@@ -3,80 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <ksainte19@student.s19>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/09 15:02:14 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/06/10 14:30:55 by lgaudin          ###   ########.fr       */
+/*   Created: 2024/04/03 21:50:53 by ksainte           #+#    #+#             */
+/*   Updated: 2024/04/03 23:05:18 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
+#include "Libft/libft.h"
 #include <signal.h>
-#include <stdio.h>
-#include <string.h>
 
-/**
- * @brief    Sends 8 signals to the provided PID to transmit the
- * provided character bit by bit.
- * It starts from the MSB and progressively goes to the LSB.
- *
- * It sends SIGUSR1 if the bit is 1, SIGUSR2 if it is 0.
- *
- * @param    pid       server's PID
- * @param    character character to transmit
- */
-void	send_signal(int pid, unsigned char character)
+void	send_byte(int pid, unsigned char character)
 {
 	int				i;
-	unsigned char	temp_char;
+	unsigned char	temp_byte;
 
-	i = 8;
-	temp_char = character;
-	while (i > 0)
+	temp_byte = character;
+	i = 7;
+	while (i >= 0)
 	{
-		i--;
-		temp_char = character >> i;
-		if (temp_char % 2 == 0)
+		temp_byte = character >> i;
+		if (temp_byte % 2 == 0)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		usleep(420);
+		usleep(42);
+		i--;
 	}
 }
 
-/**
- * @brief    Handles the signals sent back by the server and prints
- * the corresponding information.
- *
- * @param    signal    The signal sent back by the server.
- */
-void	handle_read_receipt(int signal)
+void	byte_reception(int signal)
 {
 	if (signal == SIGUSR1)
-		ft_printf("Received bit 1\n");
-	else if (signal == SIGUSR2)
-		ft_printf("Received bit 0\n");
+		ft_printf("bit intercepted is 1\n");
+	else
+		ft_printf("bit intercepted is 0\n");
 }
-
 
 int	main(int argc, char *argv[])
 {
-	pid_t		server_pid;
-	const char	*message;
+	pid_t		pid;
+	const char	*string;
 	int			i;
 
-	signal(SIGUSR1, handle_read_receipt);
-	signal(SIGUSR2, handle_read_receipt);
+	signal(SIGUSR1, byte_reception);
+	signal(SIGUSR2, byte_reception);
 	if (argc != 3)
 	{
-		ft_printf("Usage: %s <pid> <message>\n", argv[0]);
+		ft_printf("Wrong number of arguments\n");
 		exit(0);
 	}
-	server_pid = ft_atoi(argv[1]);
-	message = argv[2];
+	pid = ft_atoi(argv[1]);
+	string = argv[2];
 	i = 0;
-	while (message[i])
-		send_signal(server_pid, message[i++]);
-	send_signal(server_pid, '\0');
+	while (string[i])
+	{
+		send_byte(pid, string[i]);
+		i++;
+	}
+	send_byte(pid, '\0');
 	return (0);
 }

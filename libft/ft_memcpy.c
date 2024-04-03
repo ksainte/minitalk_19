@@ -3,30 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/10 18:59:19 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/12 19:49:08 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/10 15:33:48 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/10 17:05:34 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	size_t			count;
-	unsigned char	*dest_copy;
-	unsigned char	*src_copy;
+	char	*dst2;
+	char	*src2;
+	size_t	i;
 
-	if (!dest && !src)
-		return (0);
-	count = 0;
-	dest_copy = (unsigned char *)dest;
-	src_copy = (unsigned char *)src;
-	while (count < n)
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	i = 0;
+	dst2 = (char *)dst;
+	src2 = (char *)src;
+	while (i < n)
 	{
-		dest_copy[count] = (unsigned char)src_copy[count];
-		count++;
+		dst2[i] = src2[i];
+		i++;
 	}
-	return (dest);
+	return (dst2);
 }
+
+/*int	main(void)
+{	
+	#include<string.h>
+	char dst[2];
+	char src[2] = "ok";
+
+	
+	//printf("%s",memcpy(NULL,src,2));
+	printf("%s",ft_memcpy(NULL,src,0));
+	return (0);
+}*/

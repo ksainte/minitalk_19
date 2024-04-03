@@ -3,26 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudin <lgaudin@student.42malaga.com>     +#+  +:+       +#+        */
+/*   By: ksainte <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/10 18:56:52 by lgaudin           #+#    #+#             */
-/*   Updated: 2023/04/12 19:44:33 by lgaudin          ###   ########.fr       */
+/*   Created: 2023/04/10 14:07:24 by ksainte           #+#    #+#             */
+/*   Updated: 2023/04/10 15:31:15 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-void	ft_bzero(void *s, size_t n)
+void	*ft_bzero(void *s, size_t n)
 {
-	size_t			count;
-	unsigned char	*pointer_copy;
+	char	*str;
+	size_t	i;
 
-	count = 0;
-	pointer_copy = (unsigned char *)s;
-	if (n == 0)
-		return ;
-	while (count < n)
+	i = 0;
+	str = (char *)s;
+	while (i < n)
 	{
-		pointer_copy[count++] = (unsigned char) '\0';
+		str[i] = '\0';
+		i++;
 	}
+	return (str);
 }
+/*#include<strings.h>
+int	main(void)
+{
+	char str[50] = "GeeksForGeeks is for programming geeks.";
+	printf("\nBefore bzero(): %s\n", str);
+
+	//bzero(str,0);
+	ft_bzero(str,0);
+	printf("After bzero(): %s", str);
+	return (0);
+}*/
