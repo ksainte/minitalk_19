@@ -6,14 +6,12 @@
 /*   By: ksainte <ksainte19@student.s19>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 21:51:06 by ksainte           #+#    #+#             */
-/*   Updated: 2024/04/03 23:48:37 by ksainte          ###   ########.fr       */
+/*   Updated: 2024/04/04 19:58:51 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Libft/libft.h"
 #include <signal.h>
-
-#define TERMINATE_COMMUNICATION '\0'
 
 int	define_bit(int signal)
 {
@@ -34,7 +32,7 @@ void	signal_handler(int signal)
 	bit++;
 	if (bit == 8)
 	{
-		if (current_byte == TERMINATE_COMMUNICATION)
+		if (current_byte == '\0')
 			ft_printf("\n");
 		else
 			ft_printf("%c", current_byte);
@@ -51,6 +49,6 @@ int	main(void)
 	signal(SIGUSR1, signal_handler);
 	signal(SIGUSR2, signal_handler);
 	while (1)
-		pause();
+		usleep(300);
 	return (0);
 }

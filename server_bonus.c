@@ -6,14 +6,12 @@
 /*   By: ksainte <ksainte19@student.s19>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 21:50:58 by ksainte           #+#    #+#             */
-/*   Updated: 2024/04/03 23:29:59 by ksainte          ###   ########.fr       */
+/*   Updated: 2024/04/04 22:32:12 by ksainte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Libft/libft.h"
 #include <signal.h>
-
-#define TERMINATE_COMMUNICATION '\0'
 
 int	define_bit(int signal)
 {
@@ -35,7 +33,7 @@ void	handler(int signo, siginfo_t *info, void *context)
 	bit++;
 	if (bit == 8)
 	{
-		if (current_byte == TERMINATE_COMMUNICATION)
+		if (current_byte == '\0')
 			ft_printf("\n");
 		else
 			ft_printf("%c", current_byte);
@@ -59,6 +57,16 @@ int	main(void)
 	ft_printf("%d\n", getpid());
 	sigaction(SIGUSR1, &act, NULL);
 	sigaction(SIGUSR2, &act, NULL);
+	if (sigaction(SIGUSR1, &act, NULL) == -1)
+	{
+		ft_printf("ERROR - COULD NOT ASSIGN ACTION TO SIGNAL\n");
+		exit(EXIT_FAILURE);
+	}
+	if (sigaction(SIGUSR2, &act, NULL) != 0)
+	{
+		ft_printf("ERROR - COULD NOT ASSIGN ACTION TO SIGNAL\n");
+		exit(EXIT_FAILURE);
+	}
 	while (1)
 		pause();
 	return (0);
